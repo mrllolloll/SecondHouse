@@ -28,6 +28,6 @@ class CreateCalificationsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('califications');
     }
 }

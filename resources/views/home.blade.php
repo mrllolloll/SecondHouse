@@ -8,7 +8,9 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
+                
                 <a href="/buscador"><h3>Buscar cuidadores</h3></a>
+                
                 
                 </div>
             </div>

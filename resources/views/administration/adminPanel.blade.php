@@ -327,16 +327,18 @@
                                                       
                                                       @if($p->verified == 0)
                                                         <form method="get" action="publications/{{ $p->id }}/edit">
-                                                          <input type="text" name="id" hidden="true"  value="{{ $p->id }}">
+                                                          
+                                                          <input type="text" name="idUser" hidden="true" value="{{ $u->id }}">
                                                           <button class="btn btn-warning btn-sm" name="idV" style="color: #FFFFFF; font-weight: bold">Verificar</button>
 
                                                            
                                                         </form>
                                                       @else
                                                         Verificado
+
                                                         <form method="get" action="publications/{{ $p->id }}/edit">
-                                                          <input type="text" name="id" hidden="true"  value="{{ $p->id }}">
-                                                         
+                                                          <input type="text" name="idUser"  hidden="true" value="{{ $u->id }}">
+                                                          
 
                                                            <button class="btn btn-danger btn-sm" name="banPub" style="color: #FFFFFF; font-weight: bold">Ocultar</button>
                                                         </form>
@@ -372,7 +374,7 @@
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
                                               <input type="text" name="id" hidden="true"  value="{{ $u->id }}">
-                                              <button class="btn btn-danger btn-sm" style="color: #FFFFFF; font-weight: bold">Eliminar</button>
+                                              <button class="btn btn-danger btn-sm" style="color: #FFFFFF; font-weight: bold">Eliminar usuario</button>
                                           </form>
 
                                             <form method="post" class="form-inline" action="usersAdmControl/{{ $u->id }}"> 

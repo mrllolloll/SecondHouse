@@ -10,12 +10,10 @@ Route::get('/profile', function () {
 Route::get('/editProfile', function () {
     return view('editProfile');
 });
-Route::get('/buscador', function () {
-    return view('publicate.publications');
-});
 
 
 
+Route::get('/buscador', 'searchResults@first');
 Route::get('/home', 'HomeController@index');
 Route::get('/searchResults/', 'searchResults@index');
 Route::post('/change-password', 'updatePasswordController@update');

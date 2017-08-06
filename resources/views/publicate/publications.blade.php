@@ -30,7 +30,16 @@
 		<div class="row">
 				<div class="col-md-6">
 					<table class="table table-striped">
-						@foreach($sitters as $s)
+							
+						
+
+					@foreach($sitters as $s)
+						@foreach($results as $re)
+							@if($s->id == $re)
+						
+						@if($s->publication == 1)
+
+						@elseif($s->publication == 2)
 							<tr>	
 
 								<td>  @if($s->url_user==NULL || $s->url_user=='NULL')
@@ -70,8 +79,11 @@
 								</td>
 
 							</tr>
-
+						@endif
+						@endif
 						@endforeach
+					@endforeach
+
 					</table>
 
 
