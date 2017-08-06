@@ -16,7 +16,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'cellphone' => $faker->unique()->numberBetween($min = 10000000, $max = 10000100),
         'gender' => '1',
         'id_city' => $faker->numberBetween($min = 1, $max = 5),
-        'address' => 'awiod awodij',
+        'address' => 'Calle 26 No 51-53',
         'level' => $faker->numberBetween($min = 1, $max = 3),
         'status' => $faker->numberBetween($min = 1, $max = 2),
         'verified' => $faker->numberBetween($min = 0, $max = 1),

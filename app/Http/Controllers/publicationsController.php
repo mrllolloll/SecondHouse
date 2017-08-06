@@ -198,7 +198,7 @@ class publicationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {   
     
     extract($_GET);
@@ -220,9 +220,25 @@ class publicationsController extends Controller
     //VERIFICAR ANUNCIOS-----------------------------------------------------------------------------------------
     if (isset($idV)) {
         
+        $pub =   DB::table('publications')
+        ->where('id', $id)
+        ->first(); 
+
+       
+
         DB::table('publications')
         ->where('id', $id)
         ->update(['verified' => 1]);
+        
+
+       
+
+        
+
+        DB::table('users')->where('id', $pub->id_user)->update([
+                'publication'=> 2,
+                
+            ]);
     
         $usuarios = User::orderBy('id', 'DESC')->paginate(10);
         $files = DB::table('files')->get();
@@ -230,6 +246,8 @@ class publicationsController extends Controller
         $publication =  DB::table('publications')->get(); 
         $houses =  DB::table('houses')->get(); 
         $tpets =  DB::table('tpets')->get(); 
+
+
     
     return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
        
@@ -237,9 +255,25 @@ class publicationsController extends Controller
     //OCULTAR ANUNCIOS-----------------------------------------------------------------------------------------
     if (isset($banPub)) {
         
+        $pub =   DB::table('publications')
+        ->where('id', $id)
+        ->first(); 
+
+       
+
         DB::table('publications')
         ->where('id', $id)
         ->update(['verified' => 0]);
+        
+
+       
+
+        
+
+        DB::table('users')->where('id', $pub->id_user)->update([
+                'publication'=> 1,
+                
+            ]);
     
         $usuarios = User::orderBy('id', 'DESC')->paginate(10);
         $files = DB::table('files')->get();
@@ -247,6 +281,8 @@ class publicationsController extends Controller
         $publication =  DB::table('publications')->get(); 
         $houses =  DB::table('houses')->get(); 
         $tpets =  DB::table('tpets')->get(); 
+
+       
     
     return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
        

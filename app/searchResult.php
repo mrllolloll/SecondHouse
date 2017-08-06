@@ -3,9 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
+use User;
+use View;
 
-class searchResult extends Model
+class Searchresult extends Model
 {
-   	use Illuminate\Notifications\Notifiable;
-	use Illuminate\Foundation\Auth\User as Authenticatable;
+    public function index()
+    {	
+    	return view('publicate.publications');
+    }
+
+    public function scopeSearch($pet, $city)
+    {	
+
+    }
 }

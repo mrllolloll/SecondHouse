@@ -98,7 +98,9 @@ class UsersAdmController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+
+        //HACER ADMINISTRADOR ------------------------------------------------------------------
         if (isset($request->MAdmin)) {
             $user = User::findOrFail($id);
 
@@ -115,6 +117,8 @@ class UsersAdmController extends Controller
         
             return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
         }
+
+        //ELIMINAR ADMINISTRADOR ------------------------------------------------------------------------
         if (isset($request->QAdmin)) {
            
            $user = User::findOrFail($id);
@@ -132,6 +136,8 @@ class UsersAdmController extends Controller
             
             return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
         }
+
+        //BANEAR DEL SITIO A UN USUARIO--------------------------------------------------------------------------
         if (isset($request->Ban)) {
            $user = User::findOrFail($id);
 
