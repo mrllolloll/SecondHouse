@@ -141,7 +141,8 @@ class publicationsController extends Controller
                 'url_file'=>$file_route1,
                 
             ]);
-            
+
+
             foreach ($request->tpets as $tp) {
                
                 DB::table('pets')->insert([
@@ -224,9 +225,7 @@ class publicationsController extends Controller
         ->where('id', $id)
         ->first(); 
 
-       
-
-        DB::table('publications')
+       DB::table('publications')
         ->where('id', $id)
         ->update(['verified' => 1]);
         
@@ -237,8 +236,7 @@ class publicationsController extends Controller
 
         DB::table('users')->where('id', $pub->id_user)->update([
                 'publication'=> 2,
-                
-            ]);
+        ]);
     
         $usuarios = User::orderBy('id', 'DESC')->paginate(10);
         $files = DB::table('files')->get();
@@ -261,14 +259,10 @@ class publicationsController extends Controller
 
        
 
-        DB::table('publications')
+         DB::table('publications')
         ->where('id', $id)
-        ->update(['verified' => 0]);
-        
-
-       
-
-        
+        ->update(['verified' => 0], ['show' => 0]);
+            
 
         DB::table('users')->where('id', $pub->id_user)->update([
                 'publication'=> 1,
