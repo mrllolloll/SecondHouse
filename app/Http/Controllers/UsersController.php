@@ -138,12 +138,15 @@ class UsersController extends Controller
             ->update(['first_name' => $request->first_name, 'last_name' => $request->last_name,
                 't_id'=> $request->t_id,'n_id'=> $request->n_id,'gender' => $request->gender,'DOB' => $request->DOB,'cellphone' => $request->cellphone,'address' => $request->address, ]);
 
-            if ($request->id_city != " ") {
-                
+
+            if ($request->id_city != 0) {
+                  DB::table('users')
+                    ->where('id', $id) 
+                    ->update(['id_city' => $request->id_city]);
             }else{
                   DB::table('users')
-                    ->where('id', $id)
-                    ->update(['id_city' => $request->id_city]);
+                    ->where('id', $id) 
+                    ->update(['id_city' => $user->id_city]);
             }
 
               $files = DB::table('files')->get();

@@ -113,7 +113,7 @@
                             
                               <div class="col-md-4">
                                 <select class="form-control" name="id_city" required="true">
-                                    <option >Ciudad</option>    
+                                    <option value="0">Ciudad</option>    
                                     @foreach($cities as $c)
                                     <option value="{{ $c->id }}">{{ ucfirst($c->city) }}</option>    
                                     @endforeach                                

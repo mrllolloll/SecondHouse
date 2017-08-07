@@ -369,6 +369,7 @@
 
 
                                           <!-- BOTONES DEL MODAL -->
+                                         <!-- BOTONES DEL MODAL -->
                                           <div class="modal-footer">
                                           <form method="post" class="form-inline" action="usersAdmControl/{{ $u->id }}"> 
                                                 {{ method_field('DELETE') }}
@@ -394,9 +395,148 @@
                                       </div>
                                     </div>
                                 </tr>
+
+                                <!-- Modal verificar
+<div id="modalVerify{{ $u->id }}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer verificar al usuario {{ $u->first_name }}  {{ $u->last_name }}?</p><br>
+        <table>
+            <tr>
+                <td>
+                   <form method="get" action="/usersAdmControl/{usersAdmControl}/edit">
+                   <input type="text" name="id" hidden="true"  value="{{ $u->id }}">
+                    <button class="btn btn-warning btn-sm" style="color: #FFFFFF; font-weight: bold">Verificar</button>
+                    </form>
+                    </form>
+                </td>
+            </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+ Modal Ban
+<div id="modalBan{{ $u->id }}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer banear al usuario {{ $u->first_name }}  {{ $u->last_name }}?</p><br>
+
+        <table>
+            <tr>
+                <td>
+                    <form method="post" class="form-inline" action="/usersAdmControl/{{ $u->id }}"> 
+                        {{ method_field('PUT') }}
+                        {{ csrf_field() }}
+                        
+                        <input type="submit" class="btn btn-danger" name="Ban" value="Ban">
+                    </form> 
+                </td>
+            </tr>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Madmin 
+<div id="modalMadmin{{ $u->id }}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer dar derechos de administrador al usuario {{ $u->first_name }}  {{ $u->last_name }}?</p><br>
+
+        <table>
+            <tr>
+                <td>
+                     <form method="post" class="form-inline" action="/usersAdmControl/{{ $u->id }}"> 
+                    {{ method_field('PUT') }}
+                    {{ csrf_field() }}
+                      <input type="submit" class="btn btn-success" name="MAdmin" value="Hacer administrador">
+                     
+                    </form> 
+                </td>
+            </tr>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Qadmin 
+<div id="modalQadmin{{ $u->id }}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer dar derechos de administrador al usuario {{ $u->first_name }}  {{ $u->last_name }}?</p><br>
+
+        <table>
+            <tr>
+                <td>
+                    <form method="post" name="ban" class="form-inline" action="/usersAdmControl/{{ $u->id }}"> 
+                        {{ method_field('PUT') }}
+                        {{ csrf_field() }}
+                       
+
+                        <input type="submit" class="btn btn-danger" name="QAdmin" value="Quitar administrador">
+                        
+                    </form> 
+                </td>
+            </tr>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+-->
                                 @endforeach
                                 </table>
-                                
                             </div>
                             {{ $users->appends(Request::only(['name','status','verified','level']))->links() }} 
                         </div>
@@ -407,4 +547,8 @@
         </div>
     </div>
 </div>
+
+
+
+
 @endsection

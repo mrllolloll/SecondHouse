@@ -8,6 +8,9 @@
                 <div class="panel-heading"> 
                     <div class="container">
                         <div class="row">
+
+                     
+                           
                             @if($user->url_user==NULL || $user->url_user=='NULL')
                                 <img src="/imgusers/user.png" class=""> 
                             @else 
@@ -17,7 +20,33 @@
                                 
                                 <table>
                                     <tr>
-                                       
+                                       @if(Auth::user()->level == 3)
+                                       @if($user->verified==0)
+                                        El usuario no ha confirmado su correo electrónico
+                                        @else
+                                        @if($user->status==1 )
+                                            <tr>
+                                            <td> 
+                                             <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#modalVerify">Verificar</button>
+                                             </td>
+                                        </tr>
+                                           
+                                        @elseif($user->status==2 )
+                                         <tr>
+                                            <td>
+                                            Verificado
+                                           
+                                            </td>
+                                            <td><button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#modalBan">Ban</button></td>
+                                            @if($user->level==2)
+                                                <td><button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#modalMadmin">Hacer administrador</button></td>
+                                            @elseif($user->level==3)
+                                                <td><button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#modalQadmin">Quitar administrador</button></td>
+                                            @endif
+                                        </tr>
+                                        @endif
+                                    @endif
+                                @endif
                                         <td>
                                             @if($user->id == Auth::user()->id)
                                                 @if($user->url_user!=NULL || $user->url_user!='NULL')
@@ -39,6 +68,7 @@
                                              @endif
                                         </td>
                                     </tr>
+                                    
                                 </table>
                                 
                         </div>
@@ -267,4 +297,149 @@
         </div>
     </div>
 </div>
+
+
+<!-- Trigger the modal with a button -->
+
+
+<!-- Modal verificar-->
+<div id="modalVerify" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer verificar al usuario {{ $user->first_name }}  {{ $user->last_name }}?</p><br>
+        <table>
+            <tr>
+                <td>
+                   <form method="get" action="/usersAdmControl/{usersAdmControl}/edit">
+                   <input type="text" name="id" hidden="true"  value="{{ $user->id }}">
+                    <button class="btn btn-warning btn-sm" style="color: #FFFFFF; font-weight: bold">Verificar</button>
+                    </form>
+                    </form>
+                </td>
+            </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Ban -->
+<div id="modalBan" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer banear al usuario {{ $user->first_name }}  {{ $user->last_name }}?</p><br>
+
+        <table>
+            <tr>
+                <td>
+                    <form method="post" class="form-inline" action="/usersAdmControl/{{ $user->id }}"> 
+                        {{ method_field('PUT') }}
+                        {{ csrf_field() }}
+                        
+                        <input type="submit" class="btn btn-danger" name="Ban" value="Ban">
+                    </form> 
+                </td>
+            </tr>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Madmin -->
+<div id="modalMadmin" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer dar derechos de administrador al usuario {{ $user->first_name }}  {{ $user->last_name }}?</p><br>
+
+        <table>
+            <tr>
+                <td>
+                     <form method="post" class="form-inline" action="/usersAdmControl/{{ $user->id }}"> 
+                    {{ method_field('PUT') }}
+                    {{ csrf_field() }}
+                      <input type="submit" class="btn btn-success" name="MAdmin" value="Hacer administrador">
+                     
+                    </form> 
+                </td>
+            </tr>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Qadmin -->
+<div id="modalQadmin" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Atención</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Seguro de querer dar derechos de administrador al usuario {{ $user->first_name }}  {{ $user->last_name }}?</p><br>
+
+        <table>
+            <tr>
+                <td>
+                    <form method="post" name="ban" class="form-inline" action="/usersAdmControl/{{ $user->id }}"> 
+                        {{ method_field('PUT') }}
+                        {{ csrf_field() }}
+                       
+
+                        <input type="submit" class="btn btn-danger" name="QAdmin" value="Quitar administrador">
+                        
+                    </form> 
+                </td>
+            </tr>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 @endsection

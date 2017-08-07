@@ -7,11 +7,6 @@ use DB;
 use App\User;
 class UsersAdmController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {   
 
@@ -34,47 +29,28 @@ class UsersAdmController extends Controller
       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show($id)
     {
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function edit($id)
     {
-
+    
+    //verificar usuario------------------------------------------------------------------------------------
+    
     extract($_GET);
     DB::table('users')
             ->where('id', $id)
@@ -90,13 +66,6 @@ class UsersAdmController extends Controller
     return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {   
 
@@ -107,7 +76,7 @@ class UsersAdmController extends Controller
             DB::table('users')
             ->where('id', $id)
             ->update(['level' => 3]);
-    
+            
             $usuarios = User::orderBy('id', 'DESC')->paginate(10);
             $files = DB::table('files')->get();
             $pets =  DB::table('pets')->get();
@@ -156,12 +125,7 @@ class UsersAdmController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy($id)
     {
         $user = User::findOrFail($id);

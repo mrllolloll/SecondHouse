@@ -41,10 +41,12 @@ class searchResults extends Controller
             $cities =  DB::table('cities')->get(); 
            
 
-           
+           foreach ($users as $u) {
+                $results[] = 0;
+            }
 
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> '0']);
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);
         }else{
         
             $users = DB::table('users')->get();
@@ -122,7 +124,7 @@ class searchResults extends Controller
             $number = 0;
 
             foreach ($users as $u) {
-                $results[] = $u->id;
+                $results[] = 0;
             }
 
 
@@ -180,7 +182,7 @@ class searchResults extends Controller
             $number = 0;
 
             foreach ($users as $u) {
-                $results[] = $u->id;
+                $results[] = 0;
             }
 
 
@@ -231,7 +233,7 @@ class searchResults extends Controller
             $number = 0;
 
             foreach ($users as $u) {
-                $results[] = $u->id;
+                $results[] = 0;
             }
 
 
