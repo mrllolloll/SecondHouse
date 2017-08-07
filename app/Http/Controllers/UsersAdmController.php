@@ -167,6 +167,7 @@ class UsersAdmController extends Controller
         $user = User::findOrFail($id);
         //Modal de confirmación
         DB::table('users')->where('id', $id)->delete();
+        DB::table('publications')->where('id_user', $id)->delete();
 
         $files = DB::table('files')->get();
         $pets =  DB::table('pets')->get();

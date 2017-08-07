@@ -28,7 +28,9 @@ class searchResults extends Controller
                 $results[] = $u->id;
             }
 
-             if (empty($results)) {
+            
+
+            if (empty($results)) {
             
             $users = DB::table('users')->where( 'publication','2' )->paginate(10);
             $publications =  DB::table('publications')->get(); 
@@ -37,11 +39,9 @@ class searchResults extends Controller
             $houses =  DB::table('houses')->get(); 
             $tpets =  DB::table('tpets')->get(); 
             $cities =  DB::table('cities')->get(); 
-            $number = 0;
+           
 
-            foreach ($users as $u) {
-                $results[] = $u->id;
-            }
+           
 
 
             return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> '0']);

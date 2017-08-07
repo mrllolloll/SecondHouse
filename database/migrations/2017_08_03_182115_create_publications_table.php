@@ -21,7 +21,8 @@ class CreatePublicationsTable extends Migration
             $table->double('price');
             $table->tinyInteger('id_house');
             $table->string('url_file');
-            $table->boolean('verified')->default(false);
+            $table->tinyInteger('verified')->default('0');
+            $table->tinyInteger('show')->default('1');
             $table->timestamps();
         });
     }
