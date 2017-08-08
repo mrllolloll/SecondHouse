@@ -218,6 +218,7 @@ class publicationsController extends Controller
         
             return view('edits.editPublication')->with(['user' => $user, 'houses'=>$houses, 'tpets' => $tpets,'publication' => $publication, 'pets' => $pets]);
     }
+    
     //VERIFICAR ANUNCIOS-----------------------------------------------------------------------------------------
     if (isset($idV)) {
         
@@ -253,7 +254,7 @@ class publicationsController extends Controller
     //OCULTAR ANUNCIOS-----------------------------------------------------------------------------------------
     if (isset($banPub)) {
         
-        $pub =   DB::table('publications')
+        $pub = DB::table('publications')
         ->where('id', $id)
         ->first(); 
 
@@ -264,10 +265,7 @@ class publicationsController extends Controller
         ->update(['verified' => 0], ['show' => 0]);
             
 
-        DB::table('users')->where('id', $pub->id_user)->update([
-                'publication'=> 1,
-                
-            ]);
+        DB::table('users')->where('id', $pub->id_user)->update(['publication'=> 1]);
     
         $usuarios = User::orderBy('id', 'DESC')->paginate(10);
         $files = DB::table('files')->get();

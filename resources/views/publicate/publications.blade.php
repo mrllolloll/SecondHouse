@@ -32,7 +32,9 @@
 					<table class="table table-striped">
 							
 						
-
+					@if($results == 0)
+						No ese han encontrado resultados para la búsqueda
+					@else
 					@foreach($sitters as $s)
 						@foreach($results as $re)
 							@if($s->id == $re)
@@ -83,7 +85,7 @@
 						@endif
 						@endforeach
 					@endforeach
-
+					@endif
 					</table>
 
 
