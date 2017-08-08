@@ -22,8 +22,7 @@ class searchResults extends Controller
             $houses =  DB::table('houses')->get(); 
             $tpets =  DB::table('tpets')->get(); 
             $cities =  DB::table('cities')->get(); 
-            $number = 0;
-
+          
             foreach ($users as $u) {
                 $results[] = $u->id;
             }
@@ -41,12 +40,10 @@ class searchResults extends Controller
             $cities =  DB::table('cities')->get(); 
            
 
-           foreach ($users as $u) {
-                $results[] = 0;
-            }
+           
 
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> '0']);
         }else{
         
             $users = DB::table('users')->get();
@@ -64,11 +61,11 @@ class searchResults extends Controller
     }
 
      public function index(Request $request)
-    {	
+    {   
 
-    	//SI NO HAAY DATOS EN LA BÚSQUEDA---------------------------------------------------------------------------
+        //SI NO HAAY DATOS EN LA BÚSQUEDA---------------------------------------------------------------------------
 
-        if ( $request->typepets==0 &&  $request->cities==0) {
+        if ($request->typepets==0 &&  $request->cities==0) {
             $users = DB::table('users')->where( 'publication','2' )->paginate(10);
             $publications =  DB::table('publications')->get(); 
             $files = DB::table('files')->get();
@@ -82,8 +79,37 @@ class searchResults extends Controller
                 $results[] = $u->id;
             }
 
+           if (empty($results)) {
+            
+           $users = DB::table('users')->where( 'publication','2' )->paginate(10);
+            $publications =  DB::table('publications')->get(); 
+            $files = DB::table('files')->get();
+            $pets =  DB::table('pets')->get();
+            $houses =  DB::table('houses')->get(); 
+            $tpets =  DB::table('tpets')->get(); 
+            $cities =  DB::table('cities')->get(); 
+            $number = 0;
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);
+            foreach ($users as $u) {
+                $results[] = $u->id;
+            }
+
+
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> '0']);
+        }else{
+        
+            $users = DB::table('users')->get();
+            $publications =  DB::table('publications')->get(); 
+            $files = DB::table('files')->get();
+            $pets =  DB::table('pets')->get();
+            $houses =  DB::table('houses')->get(); 
+            $tpets =  DB::table('tpets')->get(); 
+            $cities =  DB::table('cities')->get(); 
+            
+
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);  
+
+        }
            
         }elseif( $request->typepets!=0 &&  $request->cities!=0){
 
@@ -124,7 +150,7 @@ class searchResults extends Controller
             $number = 0;
 
             foreach ($users as $u) {
-                $results[] = 0;
+                $results[] = $u->id;
             }
 
 
@@ -182,7 +208,7 @@ class searchResults extends Controller
             $number = 0;
 
             foreach ($users as $u) {
-                $results[] = 0;
+                $results[] = $u->id;
             }
 
 
@@ -233,7 +259,7 @@ class searchResults extends Controller
             $number = 0;
 
             foreach ($users as $u) {
-                $results[] = 0;
+                $results[] = $u->id;
             }
 
 
