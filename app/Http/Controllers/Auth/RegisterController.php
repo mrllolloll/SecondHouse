@@ -37,7 +37,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
-            'email' => 'required|email|max:255|unique:users|confirmed',
+            'email' => 'required|email|max:255|unique:users',
             'n_id' => 'required|max:20',
             't_id' => 'required',
             'DOB' => 'required|date|',
@@ -45,7 +45,7 @@ class RegisterController extends Controller
             'gender' => 'required',
             'id_city' => 'required',
             'address' => 'required|max:500',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8',
         ]);
     }
 
@@ -107,7 +107,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
+       $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
 

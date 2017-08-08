@@ -12,7 +12,7 @@ Route::get('/editProfile', function () {
 });
 
 
-
+Route::post('/register1', 'redirectRegister@index');
 Route::get('/buscador', 'searchResults@first');
 Route::get('/home', 'HomeController@index');
 Route::get('/searchResults/', 'searchResults@index');
