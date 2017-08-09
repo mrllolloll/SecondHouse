@@ -8,6 +8,10 @@ use Storage;
 use App\Publication;
 use App\User;
 use View;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifiedPublicationMail;
+use App\Mail\BannedPublicationMail;
+
 class publicationsController extends Controller
 {
     /**
@@ -232,13 +236,15 @@ class publicationsController extends Controller
         
 
        
-
+      
         
 
         DB::table('users')->where('id', $pub->id_user)->update([
                 'publication'=> 2,
         ]);
-    
+        
+        Mail::to($request->destiny)->send(new VerifiedPublicationMail());
+
         $usuarios = User::orderBy('id', 'DESC')->paginate(10);
         $files = DB::table('files')->get();
         $pets =  DB::table('pets')->get();
@@ -266,6 +272,7 @@ class publicationsController extends Controller
             
 
         DB::table('users')->where('id', $pub->id_user)->update(['publication'=> 1]);
+        Mail::to($request->destiny)->send(new BannedPublicationMail());
     
         $usuarios = User::orderBy('id', 'DESC')->paginate(10);
         $files = DB::table('files')->get();
