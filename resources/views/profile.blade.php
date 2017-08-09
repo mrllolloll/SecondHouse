@@ -16,6 +16,25 @@
                             @else 
                                 <img src="/imgusers/{{ $user->url_user }}" class="img img-responsive" style="width: 20%; height: 20%"> 
                             @endif
+
+                            @if(Auth::user()->id != $user->id)
+                            <form  method="POST" action="/chat" class="form-group">
+                                {{ csrf_field() }}
+                                <input type="text" hidden="true" value="{{ $user->id }}" name="idR">
+                                <input type="text" hidden="true" value="{{ Auth::user()->id }}" name="idS">
+                                <input type="submit" name="chat" value="Enviar mensaje" >
+                            </form>
+                           
+                            @endif
+                            @if(Auth::user()->id == $user->id)
+                            <form  method="POST" action="/chats" class="form-group">
+                                {{ csrf_field() }}
+                                
+                                <input type="text" hidden="true" value="{{ Auth::user()->id }}" name="idS">
+                                <input type="submit" name="chat" value="Mensajes">
+                            </form>
+                            @endif
+
                               <h2>{{ ucfirst($user->first_name)}} {{ ucfirst($user->last_name)}}</h2>
                                 
                                 <table>
