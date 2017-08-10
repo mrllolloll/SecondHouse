@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifiedUserMail;
+use App\Mail\BannedUserMail;
+
+
 class UsersAdmController extends Controller
 {
     public function index(Request $request)
@@ -52,9 +57,12 @@ class UsersAdmController extends Controller
     //verificar usuario------------------------------------------------------------------------------------
     
     extract($_GET);
+    
     DB::table('users')
             ->where('id', $id)
             ->update(['status' => 2, 'level' => 2]);
+
+    Mail::to($destiny)->send(new VerifiedUserMail());
     
     $usuarios = User::orderBy('id', 'DESC')->paginate(10);
     $files = DB::table('files')->get();
@@ -113,7 +121,9 @@ class UsersAdmController extends Controller
             DB::table('users')
             ->where('id', $id)
             ->update(['status' => 1, 'level' => 1]);
-    
+        
+            Mail::to($request->destiny)->send(new BannedUserMail());
+
             $usuarios = User::orderBy('id', 'DESC')->paginate(10);
             $files = DB::table('files')->get();
             $pets =  DB::table('pets')->get();

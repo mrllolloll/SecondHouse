@@ -84,6 +84,7 @@ class UsersController extends Controller
         
         
             return view::make('profile')->with(['user'=> $users,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
+            
         }elseif($users->publication==2){
             
             $publication =  DB::table('publications')->where('id_user', $id)->first(); 
@@ -104,7 +105,7 @@ class UsersController extends Controller
 
 
        
-        //return view('profile')->with(['user'=>$user]);
+        
     }
 
     /**

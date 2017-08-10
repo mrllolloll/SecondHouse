@@ -166,6 +166,7 @@
                                                   <br>
                                                    @if($u->status == 1)
                                                    <form method="get" action="usersAdmControl/{usersAdmControl}/edit">
+                                                   <input type="email" name="destiny" hidden="true"  value="{{ $u->email }}">
                                                    <input type="text" name="id" hidden="true"  value="{{ $u->id }}">
                                                     <button class="btn btn-warning btn-sm" style="color: #FFFFFF; font-weight: bold">Verificar</button>
                                                     </form>
@@ -327,7 +328,7 @@
                                                       
                                                       @if($p->verified == 0)
                                                         <form method="get" action="publications/{{ $p->id }}/edit">
-                                                          
+                                                          <input type="text" name="destiny" hidden="true" value="{{ $u->email }}">
                                                           <input type="text" name="idUser" hidden="true" value="{{ $u->id }}">
                                                           <button class="btn btn-warning btn-sm" name="idV" style="color: #FFFFFF; font-weight: bold">Verificar</button>
 
@@ -338,7 +339,7 @@
 
                                                         <form method="get" action="publications/{{ $p->id }}/edit">
                                                           <input type="text" name="idUser"  hidden="true" value="{{ $u->id }}">
-                                                          
+                                                          <input type="text" name="destiny" hidden="true" value="{{ $u->email }}">
 
                                                            <button class="btn btn-danger btn-sm" name="banPub" style="color: #FFFFFF; font-weight: bold">Ocultar</button>
                                                         </form>
@@ -381,6 +382,7 @@
                                             <form method="post" class="form-inline" action="usersAdmControl/{{ $u->id }}"> 
                                             {{ method_field('PUT') }}
                                             {{ csrf_field() }}
+                                              <input type="email" name="destiny" hidden="true"  value="{{ $u->email }}">
                                               <input type="submit" class="btn btn-success" name="MAdmin" value="Hacer administrador">
                                               <input type="submit" class="btn btn-primary" name="QAdmin" value="Quitar administrador">
                                               <input type="submit" class="btn btn-danger" name="Ban" value="Ban">

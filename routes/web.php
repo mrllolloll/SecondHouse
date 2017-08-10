@@ -11,6 +11,10 @@ Route::get('/editProfile', function () {
     return view('editProfile');
 });
 
+//RUTAS DEL CHAT-------------------------------------------------------------
+Route::post('/chat', 'ChatContoroller@index');
+Route::post('/mensajeN', 'ChatContoroller@newMessage');
+Route::post('/chats', 'ChatContoroller@chats');
 
 Route::post('/register1', 'redirectRegister@index');
 Route::get('/buscador', 'searchResults@first');
