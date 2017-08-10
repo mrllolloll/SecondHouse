@@ -60,12 +60,36 @@ class searchResults extends Controller
         }
     }
 
+
+
+
+    //BARRA DE BÚSQUEDA--------------------------------------------------------------------------------
+
      public function index(Request $request)
     {   
 
-        //SI NO HAAY DATOS EN LA BÚSQUEDA---------------------------------------------------------------------------
+        
+     
+
+
+        //SI NO HAY DATOS EN LA BÚSQUEDA---------------------------------------------------------------------------
 
         if ($request->typepets==0 &&  $request->cities==0) {
+            
+            $datetime1 = date_create($request->beginDate);
+            $datetime2 = date_create($request->endDate);
+            $interval = date_diff($datetime1, $datetime2);
+            $fechaActual = date("Y-m-d", strtotime('now'));
+            $dias = $interval->format('%a');
+            $i = 1;
+
+            //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
+            while ($i <= $dias+1) {
+                 
+                  $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
+                  $i++;
+            }
+
             $users = DB::table('users')->where( 'publication','2' )->paginate(10);
             $publications =  DB::table('publications')->get(); 
             $files = DB::table('files')->get();
@@ -81,7 +105,7 @@ class searchResults extends Controller
 
            if (empty($results)) {
             
-           $users = DB::table('users')->where( 'publication','2' )->paginate(10);
+            $users = DB::table('users')->where( 'publication','2' )->paginate(10);
             $publications =  DB::table('publications')->get(); 
             $files = DB::table('files')->get();
             $pets =  DB::table('pets')->get();
@@ -279,11 +303,11 @@ class searchResults extends Controller
 
         }
             }
-        }
+                                    
+            }
 
-       
-
-
+                
+              
+    
 
     }
-

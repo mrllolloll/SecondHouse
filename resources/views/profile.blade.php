@@ -75,6 +75,7 @@
 
                                                         <input type="submit" name="deletePC" value="Eliminar foto de perfil" class="btn btn-danger btn-sm">
                                                     </form>
+
                                                 @endif
                                             @endif
                                         </td>
@@ -134,6 +135,13 @@
                                         <td>
                                         <form action="/publications/create" method="GET">
                                            <input type="submit" name="filesUP"  class="btn btn-default" value="Subir imágenes">
+                                        </form>
+                                        </td>
+                                        <td>
+                                        <form action="/publications/{{ $publication->id }}" method="get">
+                                            {{ csrf_field() }}
+
+                                            <input type="submit" name="Publication" value="Ver anuncio" class="btn btn-default">
                                         </form>
                                         </td>
                                     </tr>
@@ -209,8 +217,17 @@
                         @elseif($user->publication == 2)
                             <!-- Anuncio  INFORMACIÓN -->
                         @if($user->id != Auth::user()->id && $publication->verified == 1 || $publication->show == 0)
+                            
+                            <form action="/publications/{{ $publication->id }}" method="get">
+
+                                {{ csrf_field() }}
+                                <input type="submit" name="Publication" value="Ver anuncio" class="btn btn-default">
+                                
+                            </form>
+
                              <br> <img src="/imgfiles/{{ $publication->url_file }}" style="width: 25%; height: 25%" class="img img-responsive">    
                             <table class="table col-md-7 col-md-offset-1">
+
                                 
                                <tr><td><b>Título</b></td><td>{{ $publication->title }}</td></tr>
                                <tr><td><b>Descripción</b></td><td>{{ $publication->description }}</td></tr>

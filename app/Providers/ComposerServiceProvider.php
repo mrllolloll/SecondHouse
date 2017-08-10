@@ -7,14 +7,11 @@ use View;
 
 class ComposerServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
+    
     public function boot()
     {
         View::composer('*', 'App\Http\ViewComposers\HomeComposer');
+        View::composer('publicate.publication', 'App\Http\ViewComposers\PublicationComposer');
     }
 
     /**

@@ -5,7 +5,7 @@
 		<div class="row">
 			
 				<div class="col-md-12">
-					<form class="form-inline col-md-12 col-md-offset-5" action="searchResults" method="GET">
+					<form class="form-inline col-md-12 col-md-offset-2" action="/searchResults/" method="GET">
                     <select name="typepets" class="form-control">
                     	<option value="0"> Mascota </option>
                       @foreach($tpets1 as $t)
@@ -18,6 +18,8 @@
                         <option value="{{ $c->id }}"> {{ ucfirst($c->city) }}</option>
                       @endforeach
                     </select>
+                    <input type="date" name="beginDate" class="form-control">
+                    <input type="date" name="endDate" class="form-control">
                     <button type="submit" class="form-control btn btn-primary">Buscar</button>
                 </form>  
 				</div>
@@ -68,6 +70,12 @@
 												@if($p1->id_publication == $pu1->id)
 													@if($p1->id_pet == $tp1->id)
 														{{ $tp1->type }}
+														<form action="/publications/{{ $pu1->id }}" method="get">
+
+							                                {{ csrf_field() }}
+							                                <input type="submit" name="Publication" value="Ver anuncio" class="btn btn-default">
+							                                
+							                            </form>
 													@endif
 												@endif
 											@endif
@@ -77,7 +85,7 @@
 
 
 								<br>
-								<a href="">Ver anuncio</a>
+								
 								</td>
 
 							</tr>
