@@ -15,6 +15,8 @@ Route::get('/editProfile', function () {
 Route::post('/chat', 'ChatContoroller@index');
 Route::post('/mensajeN', 'ChatContoroller@newMessage');
 Route::post('/chats', 'ChatContoroller@chats');
+Route::post('/reservation', 'reservationsController@index');
+Route::post('/confirm-reservation', 'reservationsController@confirmation');
 
 Route::post('/register1', 'redirectRegister@index');
 Route::get('/buscador', 'searchResults@first');

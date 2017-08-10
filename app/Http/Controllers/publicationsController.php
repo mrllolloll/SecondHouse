@@ -192,9 +192,11 @@ class publicationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        
+    public function show(Request $request, $id)
+    {   
+        $pets = DB::table('pets')->where('id_publication', $id)->get();
+        $publication = $id;
+        return view('publicate.publication')->with(['pets' => $pets, 'publication_id' => $publication ]);
     }
 
     /**
@@ -209,7 +211,8 @@ class publicationsController extends Controller
     extract($_GET);
     
     if (isset($subir)) {   
-        return view('publicate.uploadFiles');
+        $publication =DB::table('publications')->where('id', $id)->first();
+        return view('publicate.uploadFiles')->with(['publication' => $publication]);
     }
 
     if (isset($editar)) {
