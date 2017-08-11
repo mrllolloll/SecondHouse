@@ -47,6 +47,7 @@
                                         <input type="text" value="{{ $beginDate }}" hidden="true" name="beginDate">
                                         <input type="text" value="{{ $endDate }}" hidden="true" name="endDate">
                                         <input type="text" value="{{ $publicationID }}" hidden="true" name="publication_id">
+                                        <input type="text" value="{{ $idHost }}" hidden="true" name="idHost">
                                         <input type="submit" class="btn btn-primary" value="Confirmar reserva">
                                     </form> 
 
