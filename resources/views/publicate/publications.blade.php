@@ -3,7 +3,7 @@
 @section('content')
 	<div class="container">
 		<div class="row">
-			
+
 				<div class="col-md-12">
 					<form class="form-inline col-md-12 col-md-offset-2" action="/searchResults/" method="GET">
                     <select name="typepets" class="form-control">
@@ -21,48 +21,48 @@
                     <input type="date" name="beginDate" class="form-control">
                     <input type="date" name="endDate" class="form-control">
                     <button type="submit" class="form-control btn btn-primary">Buscar</button>
-                </form>  
+                </form>
 				</div>
 
 			<br><br>
-			
-			
+
+
 
 		</div>
 		<div class="row">
 				<div class="col-md-6">
 					<table class="table table-striped">
-							
-						
+
+
 					@if($results == 0)
 						No ese han encontrado resultados para la búsqueda
 					@else
 					@foreach($sitters as $s)
 						@foreach($results as $re)
 							@if($s->id == $re)
-						
+
 						@if($s->publication == 1)
 
 						@elseif($s->publication == 2)
-							<tr>	
+							<tr>
 
 								<td>  @if($s->url_user==NULL || $s->url_user=='NULL')
-                                <img src="/imgusers/user.png"  class="img-circle" style="width: 5%;"> 
-                            @else 
-                                <img src="/imgusers/{{ $s->url_user }}" class="img-circle" style="width: 5%;"> 
-                            @endif{{ ucfirst($s->first_name) }} {{ ucfirst($s->last_name) }} 
-								<br> 
+                                <img src="/imgusers/user.png"  class="img-circle" style="width: 5%;">
+                            @else
+                                <img src="/imgusers/{{ $s->url_user }}" class="img-circle" style="width: 5%;">
+                            @endif{{ ucfirst($s->first_name) }} {{ ucfirst($s->last_name) }}
+								<br>
 
 								<!-- Direcion -->
-								{{ ucfirst($s->address) }}, 
+								{{ ucfirst($s->address) }},
 								@foreach($cities as $ci)
 									@if($s->id_city == $ci->id)
 										{{ ucfirst($ci->city) }}
-									@endif	
+									@endif
 								@endforeach
 								<br>
 								<!-- tipo de mascotas -->
-								Mascotas a cuidar: 
+								Mascotas a cuidar:
 								@foreach($publications1 as $pu1)
 									@foreach($pets1 as $p1)
 										@foreach($tpets1 as $tp1)
@@ -74,18 +74,18 @@
 
 							                                {{ csrf_field() }}
 							                                <input type="submit" name="Publication" value="Ver anuncio" class="btn btn-default">
-							                                
+
 							                            </form>
 													@endif
 												@endif
 											@endif
 										@endforeach
 									@endforeach
-								@endforeach	
+								@endforeach
 
 
 								<br>
-								
+
 								</td>
 
 							</tr>

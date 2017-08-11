@@ -73,39 +73,39 @@ class UsersController extends Controller
     {
         $users = User::findOrFail($id);
         if ($users->publication==1) {
-            
-            $publication =  DB::table('publications')->where('id_user', $id)->first(); 
+
+            $publication =  DB::table('publications')->where('id_user', $id)->first();
             $files = DB::table('files')->where('id_publication', $publication->id)->get();
             $pets =  DB::table('pets')->where('id_publication', $id)->get();
-            $users =  DB::table('users')->where('id', $id)->first(); 
-            $houses =  DB::table('houses')->get(); 
-            $tpets =  DB::table('tpets')->get(); 
+            $users =  DB::table('users')->where('id', $id)->first();
+            $houses =  DB::table('houses')->get();
+            $tpets =  DB::table('tpets')->get();
 
-        
-        
+
+
             return view::make('profile')->with(['user'=> $users,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
-            
+
         }elseif($users->publication==2){
-            
-            $publication =  DB::table('publications')->where('id_user', $id)->first(); 
+
+            $publication =  DB::table('publications')->where('id_user', $id)->first();
             $files = DB::table('files')->where('id_publication', $publication->id)->get();
             $pets =  DB::table('pets')->where('id_publication', $id)->get();
-            $users =  DB::table('users')->where('id', $id)->first(); 
-            $houses =  DB::table('houses')->get(); 
-            $tpets =  DB::table('tpets')->get(); 
+            $users =  DB::table('users')->where('id', $id)->first();
+            $houses =  DB::table('houses')->get();
+            $tpets =  DB::table('tpets')->get();
 
-        
-        
+
+
             return view::make('profile')->with(['user'=> $users,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
         }else{
-            $users =  DB::table('users')->where('id', $id)->first(); 
+            $users =  DB::table('users')->where('id', $id)->first();
             return view::make('profile')->with(['user'=> $users]);
         }
 
 
 
-       
-        
+
+
     }
 
     /**
@@ -115,8 +115,8 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
-       
+    {
+
 
     }
 
@@ -128,10 +128,10 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         //ACTUALIZAR INFORMACION-----------------------------------------------------------------------------------------
         if ($request->identifier ==1) {
-           
+
             $user = DB::table('users')->where('id', $id)->first();
 
             DB::table('users')
@@ -142,30 +142,30 @@ class UsersController extends Controller
 
             if ($request->id_city != 0) {
                   DB::table('users')
-                    ->where('id', $id) 
+                    ->where('id', $id)
                     ->update(['id_city' => $request->id_city]);
             }else{
                   DB::table('users')
-                    ->where('id', $id) 
+                    ->where('id', $id)
                     ->update(['id_city' => $user->id_city]);
             }
 
               $files = DB::table('files')->get();
-                $publication =  DB::table('publications')->where('id_user', $id)->first(); 
+                $publication =  DB::table('publications')->where('id_user', $id)->first();
                 if (empty($publication)) {
-                   $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                  $houses =  DB::table('houses')->get(); 
-                  $tpets =  DB::table('tpets')->get(); 
+                   $publication =  DB::table('publications')->where('id_user', $id)->first();
+                  $houses =  DB::table('houses')->get();
+                  $tpets =  DB::table('tpets')->get();
                   $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
 
                   $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
                     return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets, 'pets'=> $pets]);
                 }else{
-                    $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                   $houses =  DB::table('houses')->get(); 
-                   $tpets =  DB::table('tpets')->get(); 
+                    $publication =  DB::table('publications')->where('id_user', $id)->first();
+                   $houses =  DB::table('houses')->get();
+                   $tpets =  DB::table('tpets')->get();
 
-                 
+
                    $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
                     return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets, 'pets'=> $pets]);
                 }
@@ -173,35 +173,35 @@ class UsersController extends Controller
         //CAMBIAR EMAIL -----------------------------------------------------------------------------
 
         if ($request->identifier ==2) {
-           
+
           if ($request->email == $request->Cemail) {
-              
+
             $userE = DB::table('users')->where('email', $request->email)->first();
 
             if (empty($userE)) {
-                
+
                 DB::table('users')
                     ->where('id', $id)
                     ->update(['email' => $request->email]);
-                    $user =  DB::table('users')->where('id', $id)->first(); 
+                    $user =  DB::table('users')->where('id', $id)->first();
                     $files = DB::table('files')->get();
-                    $publication =  DB::table('publications')->where('id_user', $id)->first(); 
+                    $publication =  DB::table('publications')->where('id_user', $id)->first();
                    if (empty($publication)) {
-                   $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                    $houses =  DB::table('houses')->get(); 
-                    $tpets =  DB::table('tpets')->get(); 
+                   $publication =  DB::table('publications')->where('id_user', $id)->first();
+                    $houses =  DB::table('houses')->get();
+                    $tpets =  DB::table('tpets')->get();
                     $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
 
                   return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets, 'pets' => $pets]);
                 }else{
-                  
-                  $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                   $houses =  DB::table('houses')->get(); 
-                   $tpets =  DB::table('tpets')->get(); 
 
-                    
+                  $publication =  DB::table('publications')->where('id_user', $id)->first();
+                   $houses =  DB::table('houses')->get();
+                   $tpets =  DB::table('tpets')->get();
+
+
                    $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
-                    
+
                   return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
                 }
             }else{
@@ -209,17 +209,17 @@ class UsersController extends Controller
             }
 
           }else{
-                
+
                 return back()->with('status1', 'Los correos suministrados no coinciden');
           }
         }
 
-        
+
         //Imágenes de perfil---------------------------------------------------------------------
         if ($request->identifier ==4) {
-            
-            $user = User::findOrFail($id);        
-            
+
+            $user = User::findOrFail($id);
+
 
             $img = $request->file('url_user');
             $file_route = time().'_'.$img->getClientOriginalName();
@@ -229,44 +229,44 @@ class UsersController extends Controller
                 Storage::disk('imgusers')->put($file_route, file_get_contents($img->getRealPath() ) );
 
                     $user->url_user = $file_route;
-                   
+
                     DB::table('users')
                             ->where('id', $id)
                             ->update(['url_user' =>  $user->url_user]);
 
                 $files = DB::table('files')->get();
-                $publication =  DB::table('publications')->where('id_user', $id)->first(); 
+                $publication =  DB::table('publications')->where('id_user', $id)->first();
                 if (empty($publication)) {
-                   $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                  $houses =  DB::table('houses')->get(); 
-                  $tpets =  DB::table('tpets')->get(); 
+                   $publication =  DB::table('publications')->where('id_user', $id)->first();
+                  $houses =  DB::table('houses')->get();
+                  $tpets =  DB::table('tpets')->get();
 
                   return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
                 }else{
-                    $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                   $houses =  DB::table('houses')->get(); 
-                   $tpets =  DB::table('tpets')->get(); 
+                    $publication =  DB::table('publications')->where('id_user', $id)->first();
+                   $houses =  DB::table('houses')->get();
+                   $tpets =  DB::table('tpets')->get();
                    $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
                     return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets, 'pets'=> $pets]);
                 }
-               
-                
-        
-        
-              
-                            
-                 }else{   
+
+
+
+
+
+
+                 }else{
                     return view('edits.editPC')->with('status1', 'El formato es incompatible');
             }
-           
-       
+
+
         }
         //ACTUALIZAR IMÁGENES DE ID----------------------------------------------------------------------------------
 
          if ($request->identifier ==5) {
-            
-            $user = User::findOrFail($id);        
-            
+
+            $user = User::findOrFail($id);
+
 
             $img1 = $request->file('url_front');
             $img2 = $request->file('url_back');
@@ -276,32 +276,32 @@ class UsersController extends Controller
 
             $file_route2 = time().'_'.$img2->getClientOriginalName();
 
-            
+
             if (substr($file_route1, -3)== "jpg" || substr($file_route1, -3)=="png" || substr($file_route1, -4)=="jpeg") {
                 if (substr($file_route2, -3)== "jpg" || substr($file_route2, -3)=="png" || substr($file_route2, -4)=="jpeg"){
-                    Storage::disk('imgid')->put($file_route1, file_get_contents($img1->getRealPath() ) );         
+                    Storage::disk('imgid')->put($file_route1, file_get_contents($img1->getRealPath() ) );
                     Storage::disk('imgid')->put($file_route2, file_get_contents($img2->getRealPath() ) );
                     DB::table('users')
                                 ->where('id', $id)
                                 ->update(['url_front' => $file_route1]);
                     DB::table('users')
                                 ->where('id', $id)
-                                ->update(['url_back' => $file_route2]);   
-                    
+                                ->update(['url_back' => $file_route2]);
+
                       $files = DB::table('files')->get();
-                $publication =  DB::table('publications')->where('id_user', $id)->first(); 
+                $publication =  DB::table('publications')->where('id_user', $id)->first();
                if (empty($publication)) {
-                   $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                  $houses =  DB::table('houses')->get(); 
-                  $tpets =  DB::table('tpets')->get(); 
+                   $publication =  DB::table('publications')->where('id_user', $id)->first();
+                  $houses =  DB::table('houses')->get();
+                  $tpets =  DB::table('tpets')->get();
 
                   return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
                 }else{
-                    $publication =  DB::table('publications')->where('id_user', $id)->first(); 
-                   $houses =  DB::table('houses')->get(); 
-                   $tpets =  DB::table('tpets')->get(); 
+                    $publication =  DB::table('publications')->where('id_user', $id)->first();
+                   $houses =  DB::table('houses')->get();
+                   $tpets =  DB::table('tpets')->get();
 
-                 
+
                    $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
                     return view::make('profile')->with(['user'=> $user,'files'=> $files,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
                 }
@@ -311,27 +311,27 @@ class UsersController extends Controller
               }else{
                     return view('edits.editPC')->with('status1', 'El formato es incompatible');
             }
-       
+
         }
 //BORRAR FOTO DE PERFIL
         if (isset($request->deletePC)) {
-                
+
                 DB::table('users')
                     ->where('id', $id)
                     ->update(['url_user' => 'NULL']);
 
-                $user = User::findOrFail($id);        
+                $user = User::findOrFail($id);
                 $files = DB::table('files')->get();
-                $publication =  DB::table('publications')->where('id_user', $id)->first(); 
+                $publication =  DB::table('publications')->where('id_user', $id)->first();
                 $pets =  DB::table('pets')->where('id_publication', $publication->id)->get();
-                $houses =  DB::table('houses')->get(); 
-                $tpets =  DB::table('tpets')->get(); 
+                $houses =  DB::table('houses')->get();
+                $tpets =  DB::table('tpets')->get();
 
-        
-        
-                return view::make('profile')->with(['user'=> $user,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);    
+
+
+                return view::make('profile')->with(['user'=> $user,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
         }
-        
+
 
     }
 
@@ -340,6 +340,6 @@ class UsersController extends Controller
     public function destroy(Request $request, $id)
     {
 
-        
+
     }
 }
