@@ -51,9 +51,9 @@ class reservationsController extends Controller
 					
 									
 				}
-
+				$idHost = $publication->id_user;
 				
-				return View::make('publicate.testResults')->with(['beginDate' => $request->beginDate, 'endDate' => $request->endDate, 'pet' =>$pet->type, 'days' => $dias, 'total' => $total, 'publicationID' => $id]);
+				return View::make('publicate.testResults')->with(['beginDate' => $request->beginDate, 'endDate' => $request->endDate, 'pet' =>$pet->type, 'days' => $dias, 'total' => $total, 'publicationID' => $id,  'idHost' => $idHost]);
 			}
 		}
     	
@@ -64,6 +64,7 @@ class reservationsController extends Controller
     	DB::table('reservations')->insert([
                 'id_publication'=> $request->publication_id,
                 'user_id'=> $request->user_id,
+                'host_id'=> $request->idHost,
                 'beginDate'=> $request->beginDate,
                 'endDate'=> $request->endDate
                 ]);
