@@ -88,7 +88,8 @@ class searchResults extends Controller
             if ($datetime1 > $datetime2) {
                 return back();
             }
-        //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
+         
+              //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
 
             echo "SE SELECCIONAN LOS DÍAS DE LA BÚSQUEDA<br>";
             while ($i <= $dias) {
@@ -120,25 +121,13 @@ class searchResults extends Controller
                     $days1[]= date('Y-m-d', strtotime($r->beginDate. ' + '.$f.' days'));
                     $f++;  
 
-                }
-            }
-           
-            
-            foreach ($days1 as $da1) {
-                foreach ($days as $da) {
-                        
-                    if ($da1 == $da){
-                        $inter[]= $da;
-                    }
-                }
-            }  
 
-            foreach ($inter as $int) {
-                foreach ($reserves as $r) {
-                   echo $r->id."<br>";
                 }
-               echo "interceptada ".$int."<br>";
+                
             }
+
+        
+            
             
          
             foreach ($days as $d) {
@@ -199,6 +188,7 @@ class searchResults extends Controller
           
             
             //FIN DEL SISTEMA DE FECHAS---------------------------------------------------------------------------
+            
             
 
             
@@ -280,13 +270,13 @@ class searchResults extends Controller
                  
                 $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
                 
-                
                 $i++;
             }
         
             foreach ($days as $d) {
 
                 $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
+                
                 foreach ($dates as $d) {
                     $ids[]=$d->host_id;
                    
