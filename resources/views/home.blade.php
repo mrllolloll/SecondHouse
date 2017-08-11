@@ -9,7 +9,23 @@
 
                 <div class="panel-body">
                 
-                <a href="/buscador"><h3>Buscar cuidadores</h3></a>
+               <form class="form-inline col-md-12" action="/searchResults/" method="GET">
+                    <select name="typepets" class="form-control">
+                        <option value="0"> Mascota </option>
+                      @foreach($tpets1 as $t)
+                        <option value="{{ $t->id }}"> {{  ucfirst($t->type) }}</option>
+                      @endforeach
+                    </select>
+                    <select name="cities" class="form-control">
+                    <option value="0"> Ciudad </option>
+                      @foreach($cities as $c)
+                        <option value="{{ $c->id }}"> {{ ucfirst($c->city) }}</option>
+                      @endforeach
+                    </select>
+                    <input type="date" name="beginDate" required="true" class="form-control">
+                    <input type="date" name="endDate" required="true" class="form-control">
+                    <button type="submit" class="form-control btn btn-primary">Buscar</button>
+                </form>  
                 
                 
                 </div>

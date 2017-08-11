@@ -88,7 +88,8 @@ class searchResults extends Controller
             if ($datetime1 > $datetime2) {
                 return back();
             }
-        //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
+           
+            //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
 
             echo "SE SELECCIONAN LOS DÍAS DE LA BÚSQUEDA<br>";
             while ($i <= $dias) {
@@ -239,7 +240,7 @@ class searchResults extends Controller
             }
 
 
-            return view::make('publicate.publications')->with(['sitters'=> $usersU,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> '0', 'total' => $total]);
+            return view::make('publicate.publications')->with(['sitters'=> $usersU,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> '0', 'idU' => $id_user]);
         }else{
         
             $users = DB::table('users')->where( 'publication','2' )->paginate(10);
@@ -259,71 +260,7 @@ class searchResults extends Controller
 
 
             //SI HAY DATOS EN AMBOS CAMPOS------------------------------------------------------------------
-            $datetime1 = date_create($request->beginDate);
-            $datetime2 = date_create($request->endDate);
-            $fechaActual = date("Y-m-d", strtotime('now'));
-            $datetime3 = date_create($fechaActual);
-            if ($datetime2 == $datetime3) {
-                $datetime2 =  date_create($request->beginDate);
-            }
             
-            $interval = date_diff($datetime1, $datetime2);
-            
-            $dias = $interval->format('%a');
-            $i = 0;
-           
-            if ($datetime1 > $datetime2) {
-                return back();
-            }
-         
-            while ($i <= $dias) {
-                 
-                $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-                
-                
-                $i++;
-            }
-        
-            foreach ($days as $d) {
-
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                   
-                }
-            }
-           
-            if (empty($ids)) {
-                $users = DB::table('users')->where( 'publication','2' )->paginate(10);
-
-                foreach ($users as $u) {
-                    $total[]=$u->id;
-                }
-            }else{
-
-                $idU = array_unique($ids);
-                  //SE TOMAN LOS VALORES DE LAS PUBLICACIONES A SACAR-------------------------------------------------
-
-                foreach ($idU as $i) {
-                    $taken = DB::table('users')->where([
-                        ['publication', '2'],
-                        ['id', $i],
-                    ])->first();
-                   $taken1[]= $taken->id;
-                  
-                }
-                //SE TOMAN LOS CUIDADORES PARA COMPARAR-------------------------------------------------------------------
-                $users = DB::table('users')->where( 'publication','2' )->paginate(10);
-                
-                foreach ($users as $u) {
-                   $idT[]= $u->id;
-                  
-                }
-                //SE COMPARAN LOS DOS ARRAY Y SE TOMAN DEL PRIMERO LOS QUE NO ESTÉN EN EL SEGUNDO-------------------------
-                $total = array_diff($idT, $taken1);
-
-               
-            }
             
 
             $pets1 = DB::table('pets')->where('id_pet', $request->typepets)->get();
@@ -348,21 +285,21 @@ class searchResults extends Controller
 
             if (empty($results)) {
             
-            $users = DB::table('users')->where( 'publication','2' )->paginate(10);
+           $users = DB::table('users')->where( 'publication','2' )->paginate(10);
             $publications =  DB::table('publications')->get(); 
             $files = DB::table('files')->get();
             $pets =  DB::table('pets')->get();
             $houses =  DB::table('houses')->get(); 
             $tpets =  DB::table('tpets')->get(); 
             $cities =  DB::table('cities')->get(); 
-          
+            $number = 0;
 
             foreach ($users as $u) {
                 $results[] = $u->id;
             }
 
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' =>$total]);
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);
         }else{
         
             $users = DB::table('users')->get();
@@ -374,7 +311,7 @@ class searchResults extends Controller
             $cities =  DB::table('cities')->get(); 
             
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' => $total]);  
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);  
 
         }
           
@@ -382,71 +319,7 @@ class searchResults extends Controller
             }elseif($request->typepets!=0 &&  $request->cities==0){
 
                      //SI HAY DATOS EN CAMPO MASCOTAS------------------------------------------------------------------
-            $datetime1 = date_create($request->beginDate);
-            $datetime2 = date_create($request->endDate);
-            $fechaActual = date("Y-m-d", strtotime('now'));
-            $datetime3 = date_create($fechaActual);
-            if ($datetime2 == $datetime3) {
-                $datetime2 =  date_create($request->beginDate);
-            }
             
-            $interval = date_diff($datetime1, $datetime2);
-            
-            $dias = $interval->format('%a');
-            $i = 0;
-           
-            if ($datetime1 > $datetime2) {
-                return back();
-            }
-         
-            while ($i <= $dias) {
-                 
-                $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-                
-                
-                $i++;
-            }
-        
-            foreach ($days as $d) {
-
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                   
-                }
-            }
-           
-            if (empty($ids)) {
-                $users = DB::table('users')->where( 'publication','2' )->paginate(10);
-
-                foreach ($users as $u) {
-                    $total[]=$u->id;
-                }
-            }else{
-
-                $idU = array_unique($ids);
-                  //SE TOMAN LOS VALORES DE LAS PUBLICACIONES A SACAR-------------------------------------------------
-
-                foreach ($idU as $i) {
-                    $taken = DB::table('users')->where([
-                        ['publication', '2'],
-                        ['id', $i],
-                    ])->first();
-                   $taken1[]= $taken->id;
-                  
-                }
-                //SE TOMAN LOS CUIDADORES PARA COMPARAR-------------------------------------------------------------------
-                $users = DB::table('users')->where( 'publication','2' )->paginate(10);
-                
-                foreach ($users as $u) {
-                   $idT[]= $u->id;
-                  
-                }
-                //SE COMPARAN LOS DOS ARRAY Y SE TOMAN DEL PRIMERO LOS QUE NO ESTÉN EN EL SEGUNDO-------------------------
-                $total = array_diff($idT, $taken1);
-
-               
-            }
             
 
             $pets1 = DB::table('pets')->where('id_pet', $request->typepets)->get();
@@ -484,7 +357,7 @@ class searchResults extends Controller
             }
 
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' => $total]);
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);
         }else{
         
             $users = DB::table('users')->get();
@@ -496,7 +369,7 @@ class searchResults extends Controller
             $cities =  DB::table('cities')->get(); 
             
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' => $total]);  
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);  
 
         }
 
@@ -505,72 +378,6 @@ class searchResults extends Controller
 
             //SI HAY DATOS EN CAMPO CIUDADES------------------------------------------------------------------
             
-            $datetime1 = date_create($request->beginDate);
-            $datetime2 = date_create($request->endDate);
-            $fechaActual = date("Y-m-d", strtotime('now'));
-            $datetime3 = date_create($fechaActual);
-            if ($datetime2 == $datetime3) {
-                $datetime2 =  date_create($request->beginDate);
-            }
-            
-            $interval = date_diff($datetime1, $datetime2);
-            
-            $dias = $interval->format('%a');
-            $i = 0;
-           
-            if ($datetime1 > $datetime2) {
-                return back();
-            }
-         
-            while ($i <= $dias) {
-                 
-                $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-                
-                
-                $i++;
-            }
-        
-            foreach ($days as $d) {
-
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                   
-                }
-            }
-           
-            if (empty($ids)) {
-                $users = DB::table('users')->where( 'publication','2' )->paginate(10);
-
-                foreach ($users as $u) {
-                    $total[]=$u->id;
-                }
-            }else{
-
-                $idU = array_unique($ids);
-                  //SE TOMAN LOS VALORES DE LAS PUBLICACIONES A SACAR-------------------------------------------------
-
-                foreach ($idU as $i) {
-                    $taken = DB::table('users')->where([
-                        ['publication', '2'],
-                        ['id', $i],
-                    ])->first();
-                   $taken1[]= $taken->id;
-                  
-                }
-                //SE TOMAN LOS CUIDADORES PARA COMPARAR-------------------------------------------------------------------
-                $users = DB::table('users')->where( 'publication','2' )->paginate(10);
-                
-                foreach ($users as $u) {
-                   $idT[]= $u->id;
-                  
-                }
-                //SE COMPARAN LOS DOS ARRAY Y SE TOMAN DEL PRIMERO LOS QUE NO ESTÉN EN EL SEGUNDO-------------------------
-                $total = array_diff($idT, $taken1);
-
-               
-            }
-
             $users2 = DB::table('users')->where('id_city', $request->cities)->get();
                     
                     foreach ($users2 as $u2) {
@@ -601,7 +408,7 @@ class searchResults extends Controller
             }
 
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' => $total]);
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);
         }else{
         
             $users = DB::table('users')->get();
@@ -613,7 +420,7 @@ class searchResults extends Controller
             $cities =  DB::table('cities')->get(); 
             
 
-            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' => $total]);  
+            return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results]);  
 
         }
             }

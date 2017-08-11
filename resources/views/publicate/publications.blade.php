@@ -5,7 +5,7 @@
 		<div class="row">
 			
 				<div class="col-md-12">
-					<form class="form-inline col-md-12 col-md-offset-2" action="/searchResults/" method="GET">
+					<form class="form-inline col-md-12 col-md-offset-3" action="/searchResults/" method="GET">
                     <select name="typepets" class="form-control">
                     	<option value="0"> Mascota </option>
                       @foreach($tpets1 as $t)
@@ -18,8 +18,8 @@
                         <option value="{{ $c->id }}"> {{ ucfirst($c->city) }}</option>
                       @endforeach
                     </select>
-                    <input type="date" name="beginDate" class="form-control">
-                    <input type="date" name="endDate" class="form-control">
+                    <input type="date" name="beginDate" required="true" class="form-control">
+                    <input type="date" name="endDate" required="true" class="form-control">
                     <button type="submit" class="form-control btn btn-primary">Buscar</button>
                 </form>  
 				</div>
@@ -39,7 +39,8 @@
 					@else
 					@foreach($sitters as $s)
 						@foreach($results as $re)
-							@if($s->id == $re)
+							@foreach($total as $t)
+							@if($s->id == $re && $s->id == $t)
 						
 						@if($s->publication == 1)
 
@@ -70,12 +71,6 @@
 												@if($p1->id_publication == $pu1->id)
 													@if($p1->id_pet == $tp1->id)
 														{{ $tp1->type }}
-														<form action="/publications/{{ $pu1->id }}" method="get">
-
-							                                {{ csrf_field() }}
-							                                <input type="submit" name="Publication" value="Ver anuncio" class="btn btn-default">
-							                                
-							                            </form>
 													@endif
 												@endif
 											@endif
@@ -85,12 +80,13 @@
 
 
 								<br>
-								
+								<a href="">Ver anuncio</a>
 								</td>
 
 							</tr>
 						@endif
 						@endif
+						@endforeach
 						@endforeach
 					@endforeach
 					@endif
