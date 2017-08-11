@@ -18,6 +18,7 @@ class reservationsController extends Controller
 		$datetime2 = date_create($request->endDate);
 		$interval = date_diff($datetime1, $datetime2);
 		$dias = 0;
+		$i = 0;
 		
 		
 		$fechaActual = date("Y-m-d", strtotime('now'));
@@ -53,7 +54,14 @@ class reservationsController extends Controller
 				}
 				$idHost = $publication->id_user;
 				
-				return View::make('publicate.testResults')->with(['beginDate' => $request->beginDate, 'endDate' => $request->endDate, 'pet' =>$pet->type, 'days' => $dias, 'total' => $total, 'publicationID' => $id,  'idHost' => $idHost]);
+					while ($i <= $dias) {
+		                 
+		                $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
+		                echo $days[$i]."<br>";
+		                
+		                $i++;
+	            	}	
+				//return View::make('publicate.testResults')->with(['beginDate' => $request->beginDate, 'endDate' => $request->endDate, 'pet' =>$pet->type, 'days' => $dias, 'total' => $total, 'publicationID' => $id,  'idHost' => $idHost]);
 			}
 		}
     	
