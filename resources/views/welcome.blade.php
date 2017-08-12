@@ -154,7 +154,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-9 col-md-offset-1">
-							<h1 class="text-center">¿Que es <span>MySecondHouse</span>?</h1>
+							<h1 class="text-center">¿Que es <span>MySh</span>?</h1>
 							<p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos debitis provident nulla illum minus enim praesentium repellendus ullam cupiditate reiciendis optio voluptatem, recusandae nobis quis aperiam, sapiente libero ut at.</p>
               <center class="hidden-xs hidden-sm"><iframe width="560" height="315" src="https://www.youtube.com/embed/wXL6HZVUof8" frameborder="0" allowfullscreen></iframe></center>
             </div>

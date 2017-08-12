@@ -5,7 +5,15 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Registro</div>
+                <div class="panel-heading"><section class="default-bg space" style="background-color:#f54257;">
+                  <div class="container">
+            				<div class="row">
+            					<div class="col-md-1">
+            						<h4 class="text-center">Registro</h4>
+            					</div>
+            				</div>
+            			</div>
+                </section></div><br>
                 @include('partials.flash')
                 <div class="panel-body">
                  <!--   <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}" enctype="multipart/form-data">-->
@@ -38,11 +46,11 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="form-group{{ $errors->has('n_id') ? ' has-error' : '' }}">
-                           
+
                             <label for="t_id" class="col-md-4 control-label">Tipo ID</label>
-                            
+
                             <div class="col-md-2">
                                 <select class="form-control" name="t_id">
                                     <option value="1">1</option>
@@ -64,16 +72,16 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                           
+
                             <label for="gender" class="col-md-4 control-label">Género</label>
-                            
+
                             <div class="col-md-4">
                                 <select class="form-control" name="gender">
                                     <option value="1">Masculino</option>
                                     <option value="2">Femenino</option>
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -82,7 +90,7 @@
                             <label for="DOB" class="col-md-4 control-label">Fecha de nacimiento</label>
 
                             <div class="col-md-6">
-                                <input id="DOB" type="date" class="form-control" name="DOB" value="{{ old('DOB') }}" 
+                                <input id="DOB" type="text" class="form-control DateP" name="DOB" value="{{ old('DOB') }}"
                                 max="<?php echo date('Y-m-d', strtotime( date("Y-m-d", strtotime(date('Y-m-d'))).' - 18 Years')); ?>" min="<?php echo date('Y-m-d', strtotime( date("Y-m-d", strtotime(date('Y-m-d'))).' - 100 Years')); ?>" required>
 
                                 @if ($errors->has('DOB'))
@@ -108,15 +116,15 @@
                         </div>
 
                          <div class="form-group{{ $errors->has('id_city') ? ' has-error' : '' }}">
-                           
+
                             <label for="id_city" class="col-md-4 control-label">Ciudad</label>
-                            
+
                             <div class="col-md-4">
                                 <select class="form-control" name="id_city" required="true">
-                                    
+
                                     @foreach($cities as $c)
-                                    <option value="{{ $c->id }}">{{ ucfirst($c->city) }}</option>    
-                                    @endforeach                                
+                                    <option value="{{ $c->id }}">{{ ucfirst($c->city) }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -125,10 +133,7 @@
                             <label for="address" class="col-md-4 control-label">Direccion</label>
 
                             <div class="col-md-6">
-                                <textarea name="address" class="form-control" required maxlength="500"></textarea>
-                               
-
-
+                                <textarea id="autocomplete" onFocus="geolocate()" name="address" class="form-control" required maxlength="500"></textarea>
                                 @if ($errors->has('address'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('address') }}</strong>
@@ -192,7 +197,7 @@
                         </div>
 
 
-                       
+
 
 
                         <div class="form-group">
@@ -210,4 +215,5 @@
         </div>
     </div>
 </div>
+
 @endsection
