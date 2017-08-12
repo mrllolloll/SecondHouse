@@ -46,7 +46,7 @@ class reservationsController extends Controller
 					
 				}else{
 
-					$dias = $interval->format('%a')+1;
+					$dias = $interval->format('%a');
 					$cost = $publication->price;
 					$total = $dias*$cost;
 					
@@ -54,14 +54,7 @@ class reservationsController extends Controller
 				}
 				$idHost = $publication->id_user;
 				
-					while ($i <= $dias) {
-		                 
-		                $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-		                echo $days[$i]."<br>";
-		                
-		                $i++;
-	            	}	
-				//return View::make('publicate.testResults')->with(['beginDate' => $request->beginDate, 'endDate' => $request->endDate, 'pet' =>$pet->type, 'days' => $dias, 'total' => $total, 'publicationID' => $id,  'idHost' => $idHost]);
+				return View::make('publicate.testResults')->with(['beginDate' => $request->beginDate, 'endDate' => $request->endDate, 'pet' =>$pet->type, 'days' => $dias, 'total' => $total, 'publicationID' => $id,  'idHost' => $idHost]);
 			}
 		}
     	
@@ -76,5 +69,41 @@ class reservationsController extends Controller
                 'beginDate'=> $request->beginDate,
                 'endDate'=> $request->endDate
                 ]);
+
+
+    	$datetime1 = date_create($request->beginDate);
+		$datetime2 = date_create($request->endDate);
+		$interval = date_diff($datetime1, $datetime2);
+		$dias = 0;
+		$i = 0;
+
+		if ($interval->format('%R%a días') == 0) {
+
+					$dias = 1;
+				
+					
+					
+				}else{
+
+					$dias = $interval->format('%a');
+					
+					
+									
+				}
+
+		while ($i <= $dias) {
+             
+            $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
+                      
+            $i++;
+    	}
+
+    	foreach ($days as $d) {
+    		DB::table('invervals')->insert([
+                'day'=> $d,
+                'id_host'=> $request->idHost,
+            ]);	
+    	}
+    	
     }
 }

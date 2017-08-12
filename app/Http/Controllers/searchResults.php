@@ -60,9 +60,6 @@ class searchResults extends Controller
         }
     }
 
-
-
-
     //BARRA DE BÚSQUEDA--------------------------------------------------------------------------------
 
      public function index(Request $request)
@@ -91,64 +88,26 @@ class searchResults extends Controller
          
               //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
 
-            echo "SE SELECCIONAN LOS DÍAS DE LA BÚSQUEDA<br>";
             while ($i <= $dias) {
                  
                 $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-                echo $days[$i]."<br>";
-                
                 $i++;
+            
             }
 
             $reserves = DB::table('reservations')->get();
 
-            echo "SE REALIZAN LOS INTÉRVALOS DE LAS RESERVAS <br>";
-
-            foreach ($reserves as $r) {
-                
-                $f = 0;
-
-                $datetime11 = date_create($r->beginDate);
-                $datetime22 = date_create($r->endDate);
-
-                $interval1 = date_diff($datetime11, $datetime22);
-                $dias1 = $interval1->format('%a');
-                
-                echo "Inicio ".$r->beginDate." fin ".$r->endDate." Intervalo ".$dias1."<br>";
-                
-                while ($f <= $dias1) {
-
-                    $days1[]= date('Y-m-d', strtotime($r->beginDate. ' + '.$f.' days'));
-                    $f++;  
-
-
-                }
-                
-            }
-
+           foreach ($days as $d) {
+               $idUsers= DB::table('invervals')->where('day', $d)->get();
+               foreach ($idUsers as $i) {
+                   $ids[] = $i->id_host;
+               }
+           }
         
             
             
          
-            foreach ($days as $d) {
-
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                    echo "Localizado ".$d->host_id."<br>";
-                }
-            }
-
-            /*
-            foreach ($days as $d) {
-
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                    echo "Localizado ".$d->host_id."<br>";
-                }
-            }
-            */
+           
             
             if (empty($ids)) {
                 $users = DB::table('users')->where( 'publication','2' )->paginate(10);
@@ -167,21 +126,19 @@ class searchResults extends Controller
                         ['id', $i],
                     ])->first();
                    $taken1[]= $taken->id;
-                   echo "Sacar: ".$taken->id."<br>";
+                  
                 }
                 //SE TOMAN LOS CUIDADORES PARA COMPARAR-------------------------------------------------------------------
                 $users = DB::table('users')->where( 'publication','2' )->paginate(10);
                 
                 foreach ($users as $u) {
                    $idT[]= $u->id;
-                   echo "ID's: ".$u->id."<br>";
+                   
                 }
                 //SE COMPARAN LOS DOS ARRAY Y SE TOMAN DEL PRIMERO LOS QUE NO ESTÉN EN EL SEGUNDO-------------------------
                 $total = array_diff($idT, $taken1);
 
-                foreach ($total as $t) {
-                    echo "Devolver: ".$t."<br>";
-                }
+                
             }
            
 
@@ -189,16 +146,6 @@ class searchResults extends Controller
             
             //FIN DEL SISTEMA DE FECHAS---------------------------------------------------------------------------
             
-            
-
-            
-
-          
-           
-    
-            
-          
-           
             $users = DB::table('users')->where( 'publication','2' )->paginate(10);
            
             $publications =  DB::table('publications')->get(); 
@@ -249,7 +196,7 @@ class searchResults extends Controller
 
 
             //SI HAY DATOS EN AMBOS CAMPOS------------------------------------------------------------------
-            $datetime1 = date_create($request->beginDate);
+              $datetime1 = date_create($request->beginDate);
             $datetime2 = date_create($request->endDate);
             $fechaActual = date("Y-m-d", strtotime('now'));
             $datetime3 = date_create($fechaActual);
@@ -266,24 +213,25 @@ class searchResults extends Controller
                 return back();
             }
          
+              //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
+
             while ($i <= $dias) {
                  
                 $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-                
                 $i++;
+            
             }
-        
-            foreach ($days as $d) {
 
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                   
-                }
-            }
-           
-            if (empty($ids)) {
+            $reserves = DB::table('reservations')->get();
+
+           foreach ($days as $d) {
+               $idUsers= DB::table('invervals')->where('day', $d)->get();
+               foreach ($idUsers as $i) {
+                   $ids[] = $i->id_host;
+               }
+           }
+        
+            if(empty($ids)) {
                 $users = DB::table('users')->where( 'publication','2' )->paginate(10);
 
                 foreach ($users as $u) {
@@ -300,7 +248,7 @@ class searchResults extends Controller
                         ['id', $i],
                     ])->first();
                    $taken1[]= $taken->id;
-                  
+                   
                 }
                 //SE TOMAN LOS CUIDADORES PARA COMPARAR-------------------------------------------------------------------
                 $users = DB::table('users')->where( 'publication','2' )->paginate(10);
@@ -312,8 +260,9 @@ class searchResults extends Controller
                 //SE COMPARAN LOS DOS ARRAY Y SE TOMAN DEL PRIMERO LOS QUE NO ESTÉN EN EL SEGUNDO-------------------------
                 $total = array_diff($idT, $taken1);
 
-               
+                
             }
+            //FIN DEL SISTEMA DE FECHAS---------------------------------------------------------------------------
             
 
             $pets1 = DB::table('pets')->where('id_pet', $request->typepets)->get();
@@ -353,7 +302,7 @@ class searchResults extends Controller
 
 
             return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' =>$total]);
-        }else{
+            }else{
         
             $users = DB::table('users')->get();
             $publications =  DB::table('publications')->get(); 
@@ -366,13 +315,13 @@ class searchResults extends Controller
 
             return view::make('publicate.publications')->with(['sitters'=> $users,'files'=> $files,'pets'=> $pets,'publications'=> $publications, 'houses'=> $houses, 'tpets'=> $tpets, 'cities'=> $cities, 'results'=> $results, 'total' => $total]);  
 
-        }
+            }
           
 
             }elseif($request->typepets!=0 &&  $request->cities==0){
 
-                     //SI HAY DATOS EN CAMPO MASCOTAS------------------------------------------------------------------
-            $datetime1 = date_create($request->beginDate);
+            //SI HAY DATOS EN CAMPO MASCOTAS------------------------------------------------------------------
+              $datetime1 = date_create($request->beginDate);
             $datetime2 = date_create($request->endDate);
             $fechaActual = date("Y-m-d", strtotime('now'));
             $datetime3 = date_create($fechaActual);
@@ -389,23 +338,29 @@ class searchResults extends Controller
                 return back();
             }
          
+            //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
+
             while ($i <= $dias) {
                  
                 $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-                
-                
                 $i++;
+            
             }
-        
-            foreach ($days as $d) {
 
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                   
-                }
-            }
+            $reserves = DB::table('reservations')->get();
+
+           foreach ($days as $d) {
+               $idUsers= DB::table('invervals')->where('day', $d)->get();
+               foreach ($idUsers as $i) {
+                   $ids[] = $i->id_host;
+               }
+           }
+        
+            
+            
+         
            
+            
             if (empty($ids)) {
                 $users = DB::table('users')->where( 'publication','2' )->paginate(10);
 
@@ -437,6 +392,7 @@ class searchResults extends Controller
 
                
             }
+            //FIN DEL SISTEMA DE FECHAS---------------------------------------------------------------------------
             
 
             $pets1 = DB::table('pets')->where('id_pet', $request->typepets)->get();
@@ -495,7 +451,7 @@ class searchResults extends Controller
 
             //SI HAY DATOS EN CAMPO CIUDADES------------------------------------------------------------------
             
-            $datetime1 = date_create($request->beginDate);
+              $datetime1 = date_create($request->beginDate);
             $datetime2 = date_create($request->endDate);
             $fechaActual = date("Y-m-d", strtotime('now'));
             $datetime3 = date_create($fechaActual);
@@ -512,23 +468,29 @@ class searchResults extends Controller
                 return back();
             }
          
+            //SE LLENAN LAS FECHAS DE LA BÚSQUEDA---------------------------------------------------------------------
+
             while ($i <= $dias) {
                  
                 $days[]= date('Y-m-d', strtotime($request->beginDate. ' + '.$i.' days'));
-                
-                
                 $i++;
+            
             }
-        
-            foreach ($days as $d) {
 
-                $dates = DB::table('reservations')->where('beginDate', $d)->orWhere('endDate', $d)->get();
-                foreach ($dates as $d) {
-                    $ids[]=$d->host_id;
-                   
-                }
-            }
+            $reserves = DB::table('reservations')->get();
+
+           foreach ($days as $d) {
+               $idUsers= DB::table('invervals')->where('day', $d)->get();
+               foreach ($idUsers as $i) {
+                   $ids[] = $i->id_host;
+               }
+           }
+        
+            
+            
+         
            
+            
             if (empty($ids)) {
                 $users = DB::table('users')->where( 'publication','2' )->paginate(10);
 
@@ -560,6 +522,7 @@ class searchResults extends Controller
 
                
             }
+            //FIN DEL SISTEMA DE FECHAS---------------------------------------------------------------------------
 
             $users2 = DB::table('users')->where('id_city', $request->cities)->get();
                     
