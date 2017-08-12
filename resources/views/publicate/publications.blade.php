@@ -18,8 +18,8 @@
                         <option value="{{ $c->id }}"> {{ ucfirst($c->city) }}</option>
                       @endforeach
                     </select>
-                    <input type="date" name="beginDate" required="true" class="form-control">
-                    <input type="date" name="endDate" required="true" class="form-control">
+                    <input type="date" name="beginDate"  class="form-control">
+                    <input type="date" name="endDate" class="form-control">
                     <button type="submit" class="form-control btn btn-primary">Buscar</button>
                 </form>  
 				</div>
