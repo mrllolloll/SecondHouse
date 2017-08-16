@@ -185,13 +185,35 @@
 
     <!-- Custom Scripts -->
     <script type="text/javascript" src="{{asset('/PaginaPublicaPrincipal/js/custom.js')}}"></script>
+    <script src="{{asset('/js/stickyfloat.js')}}"></script>
+
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCfJncYA9XDBb2fiUF5ApyefEnwnZODF4&callback=initAutocomplete&libraries=places"></script>
-    
+
     <script type="text/javascript">
          $( function() {
             $( ".DateP" ).datepicker();
           });
+          $( function() {
+  $( "#selectable" ).selectable();
+} );
+
+$(document).ready(function() {
+  $(".btn-primary").css("background-color", "#f54029").css("color", "white").mouseover(function() {
+    $(this).css("background-color","#fa8085");
+  }).mouseleave(function() {
+    $(this).css("background-color","#f54029");
+  });
+});
+
+jQuery('.lol1').stickyfloat({ duration: 400 });
 
     </script>
+
+
+    <script type="”text/javascript”">
+$(function() { 
+$(“#dialog”).dialog(); 
+});
+</script>
 </html>

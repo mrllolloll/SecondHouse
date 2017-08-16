@@ -13,7 +13,7 @@ use App\Mail\BannedUserMail;
 class UsersAdmController extends Controller
 {
     public function index(Request $request)
-    {   
+    {
 
 
         $users = User::Name($request->get('name'))
@@ -26,56 +26,58 @@ class UsersAdmController extends Controller
 
         $files = DB::table('files')->get();
         $pets =  DB::table('pets')->get();
-        $publication =  DB::table('publications')->get(); 
-        $houses =  DB::table('houses')->get(); 
-        $tpets =  DB::table('tpets')->get(); 
-        
+        $publication =  DB::table('publications')->get();
+        $houses =  DB::table('houses')->get();
+        $tpets =  DB::table('tpets')->get();
+
         return view('administration.adminPanel')->with(['users'=> $users,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
-      
+
     }
 
     public function create()
     {
-        
+
     }
 
     public function store(Request $request)
     {
-        
+
     }
 
-   
+
     public function show($id)
     {
 
     }
 
-  
+
     public function edit($id)
     {
-    
+
     //verificar usuario------------------------------------------------------------------------------------
-    
+
     extract($_GET);
-    
+
     DB::table('users')
             ->where('id', $id)
             ->update(['status' => 2, 'level' => 2]);
 
-    Mail::to($destiny)->send(new VerifiedUserMail());
-    
+    $user = User::findOrFail($id);
+
+    Mail::to($user->email)->send(new VerifiedUserMail());
+
     $usuarios = User::orderBy('id', 'DESC')->paginate(10);
     $files = DB::table('files')->get();
     $pets =  DB::table('pets')->get();
-    $publication =  DB::table('publications')->get(); 
-    $houses =  DB::table('houses')->get(); 
-    $tpets =  DB::table('tpets')->get(); 
-    
+    $publication =  DB::table('publications')->get();
+    $houses =  DB::table('houses')->get();
+    $tpets =  DB::table('tpets')->get();
+
     return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
     }
 
     public function update(Request $request, $id)
-    {   
+    {
 
         //HACER ADMINISTRADOR ------------------------------------------------------------------
         if (isset($request->MAdmin)) {
@@ -84,33 +86,33 @@ class UsersAdmController extends Controller
             DB::table('users')
             ->where('id', $id)
             ->update(['level' => 3]);
-            
+
             $usuarios = User::orderBy('id', 'DESC')->paginate(10);
             $files = DB::table('files')->get();
             $pets =  DB::table('pets')->get();
-            $publication =  DB::table('publications')->get(); 
-            $houses =  DB::table('houses')->get(); 
-            $tpets =  DB::table('tpets')->get(); 
-        
+            $publication =  DB::table('publications')->get();
+            $houses =  DB::table('houses')->get();
+            $tpets =  DB::table('tpets')->get();
+
             return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
         }
 
         //ELIMINAR ADMINISTRADOR ------------------------------------------------------------------------
         if (isset($request->QAdmin)) {
-           
+
            $user = User::findOrFail($id);
 
             DB::table('users')
             ->where('id', $id)
             ->update(['level' => 2]);
-    
-            $usuarios = User::orderBy('id', 'DESC')->paginate(10); 
+
+            $usuarios = User::orderBy('id', 'DESC')->paginate(10);
             $files = DB::table('files')->get();
             $pets =  DB::table('pets')->get();
-            $publication =  DB::table('publications')->get(); 
-            $houses =  DB::table('houses')->get(); 
-            $tpets =  DB::table('tpets')->get(); 
-            
+            $publication =  DB::table('publications')->get();
+            $houses =  DB::table('houses')->get();
+            $tpets =  DB::table('tpets')->get();
+
             return back()->with(['users'=> $usuarios,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
         }
 
@@ -121,21 +123,21 @@ class UsersAdmController extends Controller
             DB::table('users')
             ->where('id', $id)
             ->update(['status' => 1, 'level' => 1]);
-        
-            Mail::to($request->destiny)->send(new BannedUserMail());
+
+            Mail::to($request->email)->send(new BannedUserMail());
 
             $usuarios = User::orderBy('id', 'DESC')->paginate(10);
             $files = DB::table('files')->get();
             $pets =  DB::table('pets')->get();
-            $publication =  DB::table('publications')->get(); 
-            $houses =  DB::table('houses')->get(); 
-            $tpets =  DB::table('tpets')->get(); 
-            
+            $publication =  DB::table('publications')->get();
+            $houses =  DB::table('houses')->get();
+            $tpets =  DB::table('tpets')->get();
+
             return back()->with(['users'=> $user,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
         }
     }
 
-   
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);
@@ -145,11 +147,11 @@ class UsersAdmController extends Controller
 
         $files = DB::table('files')->get();
         $pets =  DB::table('pets')->get();
-        $publication =  DB::table('publications')->get(); 
-        $houses =  DB::table('houses')->get(); 
-        $tpets =  DB::table('tpets')->get(); 
-        
+        $publication =  DB::table('publications')->get();
+        $houses =  DB::table('houses')->get();
+        $tpets =  DB::table('tpets')->get();
+
         return back()->with(['users'=> $user,'files'=> $files,'pets'=> $pets,'publication'=> $publication, 'houses'=> $houses, 'tpets'=> $tpets]);
-        
+
     }
 }

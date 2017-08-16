@@ -296,6 +296,9 @@ blockquote {
 ----------------------------------------------------------------------------- */
 /* Buttons
 ---------------------------------- */
+.btn-primary{
+	background-color: #f54029 !important;
+}
 .btn {
 	padding: 8px 15px;
 	font-size: 14px;

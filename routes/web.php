@@ -25,7 +25,7 @@ Route::get('/searchResults/', 'searchResults@index');
 Route::post('/change-password', 'updatePasswordController@update');
 Route::post('/change-email', 'updateEmailController@update');
 
-
+Route::resource('comments', 'commentsController');
 Route::resource('adminPanel', 'adminController');
 Route::resource('usersControl', 'UsersController');
 Route::resource('usersAdmControl', 'UsersAdmController');

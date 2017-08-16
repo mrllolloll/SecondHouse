@@ -13,7 +13,7 @@ class CreateIntervalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('invervals', function (Blueprint $table) {
+        Schema::create('intervals', function (Blueprint $table) {
             $table->increments('id');
             $table->tinyInteger('id_host');
             $table->date('day');

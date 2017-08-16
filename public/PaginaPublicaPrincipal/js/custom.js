@@ -3,6 +3,7 @@ $(".logo").css({
          height : 93+'px'
        });
 
+
        var placeSearch, autocomplete;
        var componentForm = {
          street_number: 'short_name',
@@ -93,3 +94,5 @@ $(".logo").css({
      }
    });
  }
+
+ 

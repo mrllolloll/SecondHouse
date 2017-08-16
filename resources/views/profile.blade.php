@@ -5,16 +5,16 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading"> 
+                <div class="panel-heading">
                     <div class="container">
                         <div class="row">
 
-                     
-                           
+
+
                             @if($user->url_user==NULL || $user->url_user=='NULL')
-                                <img src="/imgusers/user.png" class=""> 
-                            @else 
-                                <img src="/imgusers/{{ $user->url_user }}" class="img img-responsive" style="width: 20%; height: 20%"> 
+                                <img src="/imgusers/user.png" class="">
+                            @else
+                                <img src="/imgusers/{{ $user->url_user }}" class="img img-responsive" style="width: 20%; height: 20%">
                             @endif
 
                             @if(Auth::user()->id != $user->id)
@@ -24,19 +24,19 @@
                                 <input type="text" hidden="true" value="{{ Auth::user()->id }}" name="idS">
                                 <input type="submit" name="chat" value="Enviar mensaje" >
                             </form>
-                           
+
                             @endif
                             @if(Auth::user()->id == $user->id)
                             <form  method="POST" action="/chats" class="form-group">
                                 {{ csrf_field() }}
-                                
+
                                 <input type="text" hidden="true" value="{{ Auth::user()->id }}" name="idS">
                                 <input type="submit" name="chat" value="Mensajes">
                             </form>
                             @endif
 
                               <h2>{{ ucfirst($user->first_name)}} {{ ucfirst($user->last_name)}}</h2>
-                                
+
                                 <table>
                                     <tr>
                                        @if(Auth::user()->level == 3)
@@ -45,16 +45,16 @@
                                         @else
                                         @if($user->status==1 )
                                             <tr>
-                                            <td> 
+                                            <td>
                                              <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#modalVerify">Verificar</button>
                                              </td>
                                         </tr>
-                                           
+
                                         @elseif($user->status==2 )
                                          <tr>
                                             <td>
                                             Verificado
-                                           
+
                                             </td>
                                             <td><button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#modalBan">Ban</button></td>
                                             @if($user->level==2)
@@ -83,14 +83,14 @@
                                     <tr>
                                          <td>
                                             @if($user->id == Auth::user()->id)
-                                   
-                                    <a href="{{ url('/editProfile') }}" class="btn btn-default">Editar perfil</a>    
+
+                                    <a href="{{ url('/editProfile') }}" class="btn btn-default">Editar perfil</a>
                                              @endif
                                         </td>
                                     </tr>
-                                    
+
                                 </table>
-                                
+
                         </div>
 
                         <div class="row">
@@ -106,7 +106,7 @@
                                     </td></tr>
                                     <tr><th>Direccion</th><td>{{$user->address}}</td></tr>
                                 </table>
-                                  
+
                         </div>
                     </div>
 
@@ -123,7 +123,7 @@
                                         <input type="text" name="$id" hidden="true" value="{{ Auth::user()->id }}">
                                         <input type="submit" name="createPublic"  class="btn btn-default" value="Publicar anuncio">
 
-                                    </form> 
+                                    </form>
                                 @else
                                 <table>
                                     <tr><td>
@@ -140,34 +140,34 @@
                                         <td>
                                         <form action="/publications/{{ $publication->id }}" method="get">
                                             {{ csrf_field() }}
-
+                                            <input type="text" hidden="true" name="idUser" value="{{ Auth::user()->id }}">
                                             <input type="submit" name="Publication" value="Ver anuncio" class="btn btn-default">
                                         </form>
                                         </td>
                                     </tr>
                                 </table>
                                 @endif
-                                
+
                             @endif
                         @if($user->publication == 1)
-  
-                         
+
+
                            @if($user->id == Auth::user()->id && $publication->verified == 0)
                                 Verificación pendiente
                             @endif
 
-                         
-                       
+
+
                          <!-- Anuncio  INFORMACIÓN -->
                         @if($user->id != Auth::user()->id && $publication->verified == 0 || $publication->show == 0)
                             El usuario no tiene anuncio
                         @else
-                       <br> <img src="/imgfiles/{{ $publication->url_file }}" style="width: 25%; height: 25%" class="img img-responsive">    
+                       <br> <img src="/imgfiles/{{ $publication->url_file }}" style="width: 25%; height: 25%" class="img img-responsive">
                             <table class="table col-md-7 col-md-offset-1">
-                                
+
                                <tr><td><b>Título</b></td><td>{{ $publication->title }}</td></tr>
                                <tr><td><b>Descripción</b></td><td>{{ $publication->description }}</td></tr>
-                               
+
                                <tr><td><b>Tipo de casa</b></td><td>{{ $publication->title }}</td></tr>
 
                                <tr>
@@ -184,11 +184,11 @@
                                         @endforeach
                                     </td>
                                 </tr>
-                               
+
                                <tr><td><b>Precio</b></td><td>{{ $publication->price }} Pesos</td></tr>
                                <tr>
                                     <td><b>Imágenes</b></td>
-                                  
+
                                         @foreach($files as $f)
                                           <td>
                                             <img src="/imgfiles/{{ $f->url_file }}" class="img-responsive" style="width: 25%; height: 25%">
@@ -197,41 +197,42 @@
                                                 <form action="/publications/{{ $f->id }}"  method="POST">
                                                 {{ method_field('DELETE') }}
                                                  {{ csrf_field() }}
-                                                
+
                                                   <input type="text" hidden="true" name="idUser" value="{{ $user->id }}">
-                                                  <input type="submit" name="deletePicture" value="Borrar imagen" class="btn btn-danger">  
+                                                  <input type="submit" name="deletePicture" value="Borrar imagen" class="btn btn-danger">
                                                 </form>
                                             @endif
-                                            
+
                                             </td>
                                         @endforeach
-                                   
+
                                 </tr>
 
                             </table>
 
                         @endif
-                         
+
 
 
                         @elseif($user->publication == 2)
                             <!-- Anuncio  INFORMACIÓN -->
                         @if($user->id != Auth::user()->id && $publication->verified == 1 || $publication->show == 0)
-                            
+
                             <form action="/publications/{{ $publication->id }}" method="get">
 
                                 {{ csrf_field() }}
+                                <input type="text" hidden="true" name="idUser" value="{{ $publication->id_user }}">
                                 <input type="submit" name="Publication" value="Ver anuncio" class="btn btn-default">
-                                
+
                             </form>
 
-                             <br> <img src="/imgfiles/{{ $publication->url_file }}" style="width: 25%; height: 25%" class="img img-responsive">    
+                             <br> <img src="/imgfiles/{{ $publication->url_file }}" style="width: 25%; height: 25%" class="img img-responsive">
                             <table class="table col-md-7 col-md-offset-1">
 
-                                
+
                                <tr><td><b>Título</b></td><td>{{ $publication->title }}</td></tr>
                                <tr><td><b>Descripción</b></td><td>{{ $publication->description }}</td></tr>
-                               
+
                                <tr><td><b>Tipo de casa</b></td><td>{{ $publication->title }}</td></tr>
 
                                <tr>
@@ -248,11 +249,11 @@
                                         @endforeach
                                     </td>
                                 </tr>
-                               
+
                                <tr><td><b>Precio</b></td><td>{{ $publication->price }} Pesos</td></tr>
                                <tr>
                                     <td><b>Imágenes</b></td>
-                                  
+
                                         @foreach($files as $f)
                                           <td>
                                             <img src="/imgfiles/{{ $f->url_file }}" class="img-responsive" style="width: 25%; height: 25%">
@@ -261,25 +262,25 @@
                                                 <form action="/publications/{{ $f->id }}"  method="POST">
                                                 {{ method_field('DELETE') }}
                                                  {{ csrf_field() }}
-                                                
+
                                                   <input type="text" hidden="true" name="idUser" value="{{ $user->id }}">
-                                                  <input type="submit" name="deletePicture" value="Borrar imagen" class="btn btn-danger">  
+                                                  <input type="submit" name="deletePicture" value="Borrar imagen" class="btn btn-danger">
                                                 </form>
                                             @endif
-                                            
+
                                             </td>
                                         @endforeach
-                                   
+
                                 </tr>
 
                             </table>
                         @else
-                       <br> <img src="/imgfiles/{{ $publication->url_file }}" style="width: 25%; height: 25%" class="img img-responsive">    
+                       <br> <img src="/imgfiles/{{ $publication->url_file }}" style="width: 25%; height: 25%" class="img img-responsive">
                             <table class="table col-md-7 col-md-offset-1">
-                                
+
                                <tr><td><b>Título</b></td><td>{{ $publication->title }}</td></tr>
                                <tr><td><b>Descripción</b></td><td>{{ $publication->description }}</td></tr>
-                               
+
                                <tr><td><b>Tipo de casa</b></td><td>{{ $publication->title }}</td></tr>
 
                                <tr>
@@ -296,38 +297,23 @@
                                         @endforeach
                                     </td>
                                 </tr>
-                               
+
                                <tr><td><b>Precio</b></td><td>{{ $publication->price }} Pesos</td></tr>
                                <tr>
-                                    <td><b>Imágenes</b></td>
-                                  
-                                        @foreach($files as $f)
-                                          <td>
-                                            <img src="/imgfiles/{{ $f->url_file }}" class="img-responsive" style="width: 25%; height: 25%">
-                                            <br>
-                                            @if($user->id == Auth::user()->id)
-                                                <form action="/publications/{{ $f->id }}"  method="POST">
-                                                {{ method_field('DELETE') }}
-                                                 {{ csrf_field() }}
-                                                
-                                                  <input type="text" hidden="true" name="idUser" value="{{ $user->id }}">
-                                                  <input type="submit" name="deletePicture" value="Borrar imagen" class="btn btn-danger">  
-                                                </form>
-                                            @endif
-                                            
-                                            </td>
-                                        @endforeach
-                                   
+
+
+
+
                                 </tr>
 
                             </table>
 
                         @endif
                         @endif
-                                
+
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -386,12 +372,12 @@
         <table>
             <tr>
                 <td>
-                    <form method="post" class="form-inline" action="/usersAdmControl/{{ $user->id }}"> 
+                    <form method="post" class="form-inline" action="/usersAdmControl/{{ $user->id }}">
                         {{ method_field('PUT') }}
                         {{ csrf_field() }}
-                        
+
                         <input type="submit" class="btn btn-danger" name="Ban" value="Ban">
-                    </form> 
+                    </form>
                 </td>
             </tr>
         </table>
@@ -421,12 +407,12 @@
         <table>
             <tr>
                 <td>
-                     <form method="post" class="form-inline" action="/usersAdmControl/{{ $user->id }}"> 
+                     <form method="post" class="form-inline" action="/usersAdmControl/{{ $user->id }}">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
                       <input type="submit" class="btn btn-success" name="MAdmin" value="Hacer administrador">
-                     
-                    </form> 
+
+                    </form>
                 </td>
             </tr>
         </table>
@@ -456,14 +442,14 @@
         <table>
             <tr>
                 <td>
-                    <form method="post" name="ban" class="form-inline" action="/usersAdmControl/{{ $user->id }}"> 
+                    <form method="post" name="ban" class="form-inline" action="/usersAdmControl/{{ $user->id }}">
                         {{ method_field('PUT') }}
                         {{ csrf_field() }}
-                       
+
 
                         <input type="submit" class="btn btn-danger" name="QAdmin" value="Quitar administrador">
-                        
-                    </form> 
+
+                    </form>
                 </td>
             </tr>
         </table>
